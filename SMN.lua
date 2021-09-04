@@ -211,6 +211,8 @@ savedMode = "perp"
     if (spell.type == 'BloodPactRage' or spell.type == 'BloodPactWard') and not (buffactive['Astral Conduit'] or buffactive['Apogee']) then
      
         equip(sets.precast.bp)
+        
+        add_to_chat(104, string.format("[ %s @ %d TP ]", spell.name, pet.tp))
          
     elseif spell.type == 'SummonerPact' then
      
@@ -229,7 +231,8 @@ savedMode = "perp"
              
                 -- It's not dark weather but there is some weather up, cancels dark and summons the right spirit
                 cancel_spell()
-                send_command('input /ma "%s" <me>':format(spirit_element[world.weather_element]))
+--                send_command('input /ma "%s" <me>':format(spirit_element[world.weather_element]))
+                send_command(string.format('input /ma "%s" <me>', spirit_element[world.weather_element]))
                 equip(sets.precast.summoning)
                  
             elseif world.day_element == 'Dark' then
@@ -241,7 +244,7 @@ savedMode = "perp"
              
                 -- There is no weather up and it's not darksday, so summon the current day's spirit
                 cancel_spell()              
-                send_command('input /ma "%s" <me>':format(spirit_element[world.day_element]))
+                send_command(string.format('input /ma "%s" <me>', spirit_element[world.day_element]))
                 equip(sets.precast.summoning)
                  
             end
@@ -391,7 +394,7 @@ function pet_aftercast(spell)
     -- Pet aftercast is simply a check for whether Conduit and Apogee are up, and then a call to our aftercast function
     -- We have a variable called autobp that we set to true or false with commands to auto repeat BPs for us
     if (buffactive['Apogee'] or buffactive['Astral Conduit']) and autobp then
-        send_command('input /pet "%s" <t>':format(spell.name))
+        send_command(string.format('input /pet "%s" <t>', spell.name))
         return
     end
     
